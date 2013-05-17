@@ -65,13 +65,11 @@ public class DatePerf {
 		}
 		
 	}
-	
-	
-	
+		
 	public static void main(String[] args) {
 //		StackTaceDumper dumper = new StackTaceDumper(1000, 20);
-		ThreadDumper dumper = new ThreadDumper(1000, 20);
-		dumper.start();
+//		ThreadDumper dumper = new ThreadDumper(1000, 20);
+//		dumper.start();
 		DatePerf perf = new DatePerf();
 		perf.testPerf();		
 		perf.testPerfMThread();		
@@ -81,12 +79,12 @@ public class DatePerf {
 		// Cost 7649
 		// Cost 7863
 
-		try {
-			dumper.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			dumper.join();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 	}
 }
