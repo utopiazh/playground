@@ -5,10 +5,10 @@ public class Synchronized {
 	public synchronized void syncMethod() {
 		System.out.println("Enter: " + Thread.currentThread());
 		long x = 0L;
-//		int first = 1000;
-//		int second = Integer.MAX_VALUE;
-		int first = 1;
-		int second = 1;
+		int first = 1000;
+		int second = Integer.MAX_VALUE;
+//		int first = 1;
+//		int second = 1;
 		for(int j = 0; j < Math.random() * first; ++ j) {
 			for(int i = 0; i < second; ++i) {
 				x += i;
