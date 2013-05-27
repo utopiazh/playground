@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.perf4j.LoggingStopWatch;
+import org.perf4j.StopWatch;
+
 public class HashMapPerf {
 	private static class GoodHash {
 		@Override
