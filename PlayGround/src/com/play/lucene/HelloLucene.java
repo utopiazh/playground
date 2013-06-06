@@ -136,17 +136,21 @@ public class HelloLucene {
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
 		// display results
+		displayResults(q, hits, searcher, explain);
+	}
+
+	public static void displayResults(Query q, ScoreDoc[] hits, IndexSearcher searcher, boolean explain) throws IOException {
 		System.out.println("Hits: " + hits.length);
-		for(int i = 0; i < hits.length; ++ i){
+		for (int i = 0; i < hits.length; ++i) {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
-			System.out.println((i+1) + ". " + " title: "+  d.get("title") + ", name: " + d.get("name") + ", score: "+ hits[i].score);
-			if(explain) {
+			System.out.println((i + 1) + ". " + "id: " + docId + ", title: " + d.get("title")
+					+ ", name: " + d.get("name") + ", score: " + hits[i].score);
+			if (explain) {
 				Explanation explanation = searcher.explain(q, docId);
 				System.out.println(explanation);
 			}
 		}
 	}
-
 
 }

@@ -46,5 +46,20 @@
 -->
 
 <schema name="example" version="1.5">
-
+<types>
+  <fieldType name="string" class="solr.StrField">
+<!-- 	<analyzer type="index">
+	<tokenizer class="solr.StandardTokenizerFactory"/>
+	
+	</analyzer>
+	<analyzer type="query" >
+	<tokenizer class="solr.StandardTokenizerFactory"/>
+	</analyzer> -->
+  </fieldType>
+</types>
+<fields>
+  <field name="status" type="string" indexed="true" stored="false"/> 
+  <field name="title" type="string" indexed="true" stored="true"/> 
+  <field name="name" type="string" indexed="true" stored="true"/>
+</fields>
 </schema>
