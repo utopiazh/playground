@@ -16,6 +16,7 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -35,25 +36,9 @@ public class HelloLucene {
 		
 		
 		try {
-			// prepare dir
 			String path = "./test/lucene/hello";
-			File dir = new File(path);
-			if(!dir.exists()) {
-				dir.mkdirs();
-			} else {
-				File[] files = dir.listFiles();
-				for(File file: files) {
-					file.delete();
-				}
-			}
 			
-			// open index		
-			Directory index = FSDirectory.open(dir);			
-			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_43);			
-			IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_43, analyzer);
-			
-			// add content
-			IndexWriter writer = new IndexWriter(index, config);
+			IndexWriter writer = getWriter(path);
 			
 			System.out.println("# Add doc 1");
 			addDoc1(writer);					
@@ -61,20 +46,20 @@ public class HelloLucene {
 			//writer.close();
 			
 			// query
-			Query q = getQuery(analyzer);
+			Query q = getQuery(null);
 			System.out.println("Query: " + q);
 			
 			// get reader
 			IndexReader reader = DirectoryReader.open(writer, true);
 			//IndexReader reader = DirectoryReader.open(index);
 
-			search(reader, q);
+			search(reader, q, true);
 			
 			System.out.println("# Add doc 2");
 			addDoc2(writer);
 			// get new reader
 			reader = DirectoryReader.openIfChanged((DirectoryReader) reader, writer, true);
-			search(reader, q);			
+			search(reader, q, true);
 			
 			reader.close();	
 			writer.close();
@@ -86,6 +71,27 @@ public class HelloLucene {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static IndexWriter getWriter(String path) throws IOException {
+		// prepare dir
+		
+		File dir = new File(path);
+		if(!dir.exists()) {
+			dir.mkdirs();
+		} else {
+			File[] files = dir.listFiles();
+			for(File file: files) {
+				file.delete();
+			}
+		}
+		
+		// open index		
+		Directory index = FSDirectory.open(dir);			
+		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_43);			
+		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_43, analyzer);
+				
+		return new IndexWriter(index, config);		
 	}
 	
 	public static void addDoc1(IndexWriter writer) throws IOException {
@@ -104,29 +110,28 @@ public class HelloLucene {
 	}
 	
 	public static Query getQuery(Analyzer analyzer) throws ParseException{
+		if(analyzer == null) {
+			analyzer = new StandardAnalyzer(Version.LUCENE_43);
+		}
 		// query
 		BooleanQuery bq = new BooleanQuery();
 		// query 1
 		Query q1 = new QueryParser(Version.LUCENE_43, "title", analyzer).parse("engineer");
 		q1.setBoost(3.0f);
-//		System.out.println("Query 1: " + q1);
 		bq.add(q1, Occur.SHOULD);
 		
 		Query q2 = new QueryParser(Version.LUCENE_43, "status", analyzer).parse("rich");
 		q2.setBoost(0.1f);
-//		System.out.println("Query 2: " + q2);
 		bq.add(q2, Occur.SHOULD);
-		
-//		System.out.println("Query: " + bq);
-		
+				
 		return bq;
 	}
 	
-	public static void search(IndexReader reader, Query q) throws IOException {
+	public static void search(IndexReader reader, Query q, boolean explain) throws IOException {
 		// search
 		int hitsPerPage = 10;
 		IndexSearcher searcher = new IndexSearcher(reader);
-		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage, true);
+		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage, true);		
 		searcher.search(q, collector);
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
@@ -135,7 +140,13 @@ public class HelloLucene {
 		for(int i = 0; i < hits.length; ++ i){
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
-			System.out.println((i+1) + ". " + " title: "+  d.get("title") + ", name: " + d.get("name") + ", score: "+ hits[i].score);				
+			System.out.println((i+1) + ". " + " title: "+  d.get("title") + ", name: " + d.get("name") + ", score: "+ hits[i].score);
+			if(explain) {
+				Explanation explanation = searcher.explain(q, docId);
+				System.out.println(explanation);
+			}
 		}
 	}
+
+
 }
