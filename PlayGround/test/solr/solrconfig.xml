@@ -22,7 +22,26 @@
 -->
 <config>
 
-  <luceneMatchVersion>LUCENE_43</luceneMatchVersion>
+    <luceneMatchVersion>LUCENE_43</luceneMatchVersion>
+
+    <!--
+    <SearchComponent name="popularity" class="com.play.solr.externalfilefield.PopSearchComponent">
+    </searchComponent>
+
+-->
+    <arr name="components">
+        <str>query</str>
+        <str>highlight</str>
+        <str>debug</str>
+    </arr>
+    <requestHandler name="/query" class="solr.SearchHandler">
+        <lst name="defaults">
+            <str name="echoParams">explicit</str>
+            <str name="wt">json</str>
+            <str name="indent">true</str>
+            <str name="df">text</str>
+        </lst>
+    </requestHandler>
 
 
 </config>

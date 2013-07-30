@@ -5,12 +5,8 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -19,6 +15,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.solr.core.SolrConfig;
 import org.apache.solr.core.SolrCore;
 import org.apache.solr.schema.IndexSchema;
+import org.apache.solr.schema.SchemaField;
 import org.apache.solr.search.SolrIndexSearcher;
 import org.apache.solr.util.RefCounted;
 import org.xml.sax.InputSource;
@@ -81,13 +78,6 @@ public class HelloSolr {
 			e.printStackTrace();
 		}
 
-	}
-
-	public static void prepareData(String path) throws IOException {
-		IndexWriter writer = HelloLucene.getWriter(path);
-		HelloLucene.addDoc1(writer);
-		HelloLucene.addDoc2(writer);
-		writer.close();
 	}
 
 	public static void search(IndexSearcher searcher, Query q, boolean explain)
