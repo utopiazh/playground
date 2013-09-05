@@ -5,7 +5,30 @@
 	<artifactId>PlayGround</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<properties>
+
+		<camel-version>2.11.1</camel-version>
+	</properties>
+
 	<dependencies>
+		<!-- Core Camel support -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+
 		<!-- library dependencies -->
 		<dependency>
 			<groupId>org.apache.zookeeper</groupId>
@@ -33,11 +56,11 @@
 			<version>14.0.1</version>
 		</dependency>
 		<dependency>
-	      <groupId>com.google.code.gson</groupId>
-	      <artifactId>gson</artifactId>
-	      <version>2.2.4</version>
-	      <scope>compile</scope>
-	    </dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
