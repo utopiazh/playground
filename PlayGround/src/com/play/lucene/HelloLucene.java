@@ -27,78 +27,44 @@ import org.apache.lucene.util.Version;
 
 /**
  * First test on Lucene
- * 
+ *
  * @author zhouh1
- * 
+ *
  */
 public class HelloLucene {
 
 	public static void main(String[] args) {
-		
-		
+
+
 		try {
 			String path = "./test/lucene/hello";
-			
-//			IndexWriter writer = getWriter(path);
-//			
-//			System.out.println("# Add doc 1");
-//			addDoc1(writer);					
-//			writer.commit();
+
+			IndexWriter writer = getWriter(path);
+
+			System.out.println("# Add doc 1");
+			addDoc1(writer);
+			writer.commit();
 			//writer.close();
-			
-//			// query
-//			Query q = getQuery(null);
-//			System.out.println("Query: " + q);
-			
+
+			// query
+			Query q = getQuery(null);
+			System.out.println("Query: " + q);
+
 			// get reader
-			
-			IndexReader reader = DirectoryReader.open();
-			//IndexReader reader = DirectoryReader.open(index);
 
-			//IndexReader reader = IndexReader.open(directory);
-			//Terms t =  MultiFields.getTerms(reader, keyField.getName());
-			Terms t =  MultiFields.getTerms(reader, 'guid');
-			if(t == null) {
-				log.error("Failed to get terms, reader: " + reader + ", keyField: " + keyField);
-				return;
-			}
-			TermsEnum te = t.iterator(null);
+			IndexReader reader = DirectoryReader.open(writer, true);
 
-			DocsEnum de = null;
-			BytesRef term;
-			while (true) {
-				term = te.next();
-				if (term == null) {
-					break;
-				}
-				String key = term.utf8ToString();
+			search(reader, q, true);
 
-				de = te.docs(null, de);
-				List<Integer> docs = new ArrayList<Integer>();
-				int doc = 0;
-				while ((doc = de.nextDoc()) != DocIdSetIterator.NO_MORE_DOCS) {
-					
-					Document dd = reader.document(docID);
-					String xx = dd.get('price_1');
-					
-					docs.add(doc);
-				}
-				if (!docs.isEmpty()) {
-					newData.put(key, docs);
-				}
-			}
-			
-//			search(reader, q, true);
-//			
-//			System.out.println("# Add doc 2");
-//			addDoc2(writer);
-//			// get new reader
-//			reader = DirectoryReader.openIfChanged((DirectoryReader) reader, writer, true);
-//			search(reader, q, true);
-//			
-//			reader.close();	
-//			writer.close();
-			
+			System.out.println("# Add doc 2");
+			addDoc2(writer);
+			// get new reader
+			reader = DirectoryReader.openIfChanged((DirectoryReader) reader, writer, true);
+			search(reader, q, true);
+
+			reader.close();
+			writer.close();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
