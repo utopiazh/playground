@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class RWLock {
 
-//	private static ReadWriteLock lock = new ReentrantReadWriteLock(true);
-//	private final static Lock readLock = lock.readLock();
-//	private final static Lock writeLock = lock.readLock();
+	private static ReadWriteLock lock = new ReentrantReadWriteLock(true);
+	private final static Lock readLock = lock.readLock();
+	private final static Lock writeLock = lock.readLock();
+	
+	
+//	private static Lock lock = new ReentrantLock(true);
+//	private final static Lock readLock = lock;
+//	private final static Lock writeLock = lock;
 //	
-	
-	private static Lock lock = new ReentrantLock(true);
-	private final static Lock readLock = lock;
-	private final static Lock writeLock = lock;
-	
 	private final static AtomicLong readCnt = new AtomicLong();
 	private final static AtomicLong writeCnt = new AtomicLong();
 	
@@ -66,9 +67,9 @@ public class RWLock {
 	}
 	
 	public static void test() {
-		long limit = 1000000;
-		int readers = 3;
-		int writers = 3;
+		long limit = 10000000;
+		int readers = 300;
+		int writers = 300;
 		List<Thread> threads = new ArrayList<Thread>();
 		for(int i = 0; i < readers; ++i) {
 			Thread t = new Reader(limit);
