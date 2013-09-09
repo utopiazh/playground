@@ -12,7 +12,8 @@ public class GuavaCache {
 	public static void main(String[] args) {
 		LoadingCache<Integer, String> cache =CacheBuilder.newBuilder()
 				.maximumSize(10)
-				.expireAfterAccess(10, TimeUnit.SECONDS)
+				.expireAfterAccess(1, TimeUnit.SECONDS)
+				.recordStats()
 				.build(new CacheLoader<Integer, String>() {
 
 			@Override
@@ -32,14 +33,7 @@ public class GuavaCache {
 				e.printStackTrace();
 			}
 		}
-		
-		try {
-			TimeUnit.SECONDS.sleep(10);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	
 		System.out.println(cache.stats());
 	}
 }
