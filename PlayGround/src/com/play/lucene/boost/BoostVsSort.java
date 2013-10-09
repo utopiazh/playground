@@ -29,7 +29,14 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
 import com.play.lucene.HelloLucene;
-
+/**
+ * 在使用sortField的时候，Boost不再其作用。
+ *
+ * 当SortField的值相等的时候，结果按照doc id排序。
+ *
+ * @author zhouh1
+ *
+ */
 public class BoostVsSort extends HelloLucene {
 
 	public static void main(String[] args) {
@@ -58,6 +65,18 @@ public class BoostVsSort extends HelloLucene {
 			// Add document
 			{
 				Document doc = new Document();
+				doc.add(new TextField("title", "CEO & engineer",
+						Field.Store.YES));
+				doc.add(new TextField("name", "marisa meyers", Field.Store.YES));
+				doc.add(new IntField("salary", 25, Field.Store.YES));
+				doc.add(new TextField("gender", "female", Field.Store.YES));
+				writer.addDocument(doc);
+				writer.commit();
+			}
+
+			// Add document
+			{
+				Document doc = new Document();
 				doc.add(new TextField("title", "software engineer",
 						Field.Store.YES));
 				doc.add(new TextField("name", "jeef.dean", Field.Store.YES));
@@ -67,16 +86,7 @@ public class BoostVsSort extends HelloLucene {
 				writer.commit();
 			}
 
-			{
-				Document doc = new Document();
-				doc.add(new TextField("title", "CEO & engineer",
-						Field.Store.YES));
-				doc.add(new TextField("name", "marisa meyers", Field.Store.YES));
-				doc.add(new IntField("salary", 125, Field.Store.YES));
-				doc.add(new TextField("gender", "female", Field.Store.YES));
-				writer.addDocument(doc);
-				writer.commit();
-			}
+
 			// Get query
 			BooleanQuery bq = new BooleanQuery();
 
@@ -87,7 +97,7 @@ public class BoostVsSort extends HelloLucene {
 
 
 			Query q2 = new QueryParser(Version.LUCENE_43, "gender", analyzer)
-					.parse("male");
+					.parse("female");
 			q2.setBoost(10000000);
 			bq.add(q2, Occur.SHOULD);
 
