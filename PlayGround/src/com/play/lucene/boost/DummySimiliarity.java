@@ -6,9 +6,13 @@ import org.apache.lucene.index.AtomicReaderContext;
 import org.apache.lucene.index.FieldInvertState;
 import org.apache.lucene.search.CollectionStatistics;
 import org.apache.lucene.search.TermStatistics;
-import org.apache.lucene.search.similarities.Similarity;
+import org.apache.lucene.search.similarities.BasicStats;
+import org.apache.lucene.search.similarities.Similarity.ExactSimScorer;
+import org.apache.lucene.search.similarities.Similarity.SimWeight;
+import org.apache.lucene.search.similarities.Similarity.SloppySimScorer;
+import org.apache.lucene.search.similarities.SimilarityBase;
 
-public class DummySimiliarity extends Similarity {
+public class DummySimiliarity extends SimilarityBase {
 	/**
 	 *
 	 */
@@ -39,10 +43,6 @@ public class DummySimiliarity extends Similarity {
 		return 1.0f;
 	}
 
-	@Override
-	public float idf(int docFreq, int numDocs) {
-		return 1.0f;
-	}
 
 /*	@Override
 	public float lengthNorm(String fieldName, int numTerms) {
@@ -54,18 +54,6 @@ public class DummySimiliarity extends Similarity {
 		return 1.0f;
 	}
 
-	@Override
-	public float sloppyFreq(int distance) {
-		return 1.0f;
-	}
-
-	@Override
-	public float tf(float frq) {
-		if(frq>0)
-			return 1.0f;
-		else
-			return 0;
-	}
 	@Deprecated
 	  public static float decodeNorm(byte b) {
 	    return 1.0f;  // & 0xFF maps negative bytes to positive above 127
@@ -77,29 +65,19 @@ public class DummySimiliarity extends Similarity {
 
 	@Override
 	public long computeNorm(FieldInvertState state) {
-		// TODO Auto-generated method stub
-		return 0;
+		return (long) state.getBoost();
 	}
 
 	@Override
-	public SimWeight computeWeight(float queryBoost,
-			CollectionStatistics collectionStats, TermStatistics... termStats) {
-		// TODO Auto-generated method stub
-		return null;
+	protected float score(BasicStats stats, float freq, float docLen) {
+		return 1.0f;
 	}
 
 	@Override
-	public ExactSimScorer exactSimScorer(SimWeight weight,
-			AtomicReaderContext context) throws IOException {
-		// TODO Auto-generated method stub
+	public String toString() {
 		return null;
 	}
 
-	@Override
-	public SloppySimScorer sloppySimScorer(SimWeight weight,
-			AtomicReaderContext context) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }
