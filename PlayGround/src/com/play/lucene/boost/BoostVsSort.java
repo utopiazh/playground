@@ -113,6 +113,7 @@ public class BoostVsSort extends HelloLucene {
 			// search
 			int hitsPerPage = 10;
 			IndexSearcher searcher = new IndexSearcher(reader);
+			searcher.setSimilarity(new DummySimiliarity());
 			TopScoreDocCollector collector = TopScoreDocCollector.create(
 					hitsPerPage, true);
 			TopFieldDocs tfd = searcher.search(bq, 10, sort);

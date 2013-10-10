@@ -70,7 +70,7 @@ public class DummySimiliarity extends SimilarityBase {
 
 	@Override
 	protected float score(BasicStats stats, float freq, float docLen) {
-		return 1.0f;
+		return stats.getTotalBoost();
 	}
 
 	@Override
