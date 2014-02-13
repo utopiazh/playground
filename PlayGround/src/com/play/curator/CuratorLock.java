@@ -34,5 +34,7 @@ public class CuratorLock {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	    
+	    cf.close();
 	}
 }
