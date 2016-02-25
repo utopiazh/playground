@@ -1,4 +1,4 @@
-package com.play.mthread;
+package com.play.java.mthread;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;

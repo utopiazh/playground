@@ -1,9 +1,9 @@
-package com.play.datetime;
+package com.play.java.datetime;
 
 import java.util.Date;
 
-import com.play.mthread.ThreadDumper;
-import com.play.mthread.TimeAnalyzer;
+import com.play.java.mthread.ThreadDumper;
+import com.play.java.mthread.TimeAnalyzer;
 
 public class DatePerf {
 

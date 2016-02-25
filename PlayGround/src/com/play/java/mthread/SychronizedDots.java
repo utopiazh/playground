@@ -1,4 +1,4 @@
-package com.play.mthread;
+package com.play.java.mthread;
 
 import java.util.ArrayList;
 import java.util.List;

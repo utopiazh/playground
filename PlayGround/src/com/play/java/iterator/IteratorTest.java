@@ -1,4 +1,4 @@
-package com.play.iterator;
+package com.play.java.iterator;
 
 import java.util.HashMap;
 import java.util.Iterator;

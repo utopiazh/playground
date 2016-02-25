@@ -1,4 +1,4 @@
-package com.play.mthread;
+package com.play.java.mthread;
 
 /**
  * How to demostrate the side effect of starting a thread in constructor?
