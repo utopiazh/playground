@@ -1,6 +1,6 @@
 package com.play.java.mthread;
 
-import com.play.debug.FunctionCall;
+import com.play.java.debug.FunctionCall;
 
 /**
  * "synchronized" keyword is implemented as recursive lock, 
