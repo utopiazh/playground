@@ -1,4 +1,4 @@
-package com.play.mt.lock;
+package com.play.java.mt.lock;
 
 import java.util.ArrayList;
 import java.util.List;

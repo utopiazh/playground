@@ -1,4 +1,4 @@
-package com.play.math;
+package com.play.java.math;
 
 public class MultDiv {
 

@@ -1,4 +1,4 @@
-package com.play.math;
+package com.play.java.math;
 
 public class Million {
 	public static void main(String[] args) {

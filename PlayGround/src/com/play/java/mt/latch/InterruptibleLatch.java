@@ -1,4 +1,4 @@
-package com.play.mt.latch;
+package com.play.java.mt.latch;
 
 import java.util.concurrent.CountDownLatch;
 
